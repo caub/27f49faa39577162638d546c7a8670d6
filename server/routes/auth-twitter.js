@@ -1,50 +1,46 @@
 const router = require('express').Router();
-const passport = require('passport');
+const request = require('request');
+const qs = require('querystring');
 const {TWITTER_KEY, TWITTER_SECRET} = require('../config');
-const User = require('../models/User');
 
-// pass TwitterStrategy to be able to mock it in tests, default to real one
-module.exports = (TwitterStrategy = require('passport-twitter').Strategy) => {
-	passport.use(new TwitterStrategy({
-		consumerKey: TWITTER_KEY,
-		consumerSecret: TWITTER_SECRET,
-		callbackURL: 'http://localhost:3000/signin/twitter/callback',
-		userAuthorizationURL: '	https://api.twitter.com/oauth/authorize',
-		includeEmail: true,
-		passReqToCallback: true,
-		session: false
-	}, (req, token, tokenSecret, profile, cb) => {
-		const user = profile._json;
-		User.signin({
-			id: user.id_str, // use id_str because bigInteger
-			email: user.email,
-			username: user.screen_name,
-			name: user.name,
-			avatar: user.profile_image_url_https || user.profile_image_url,
-			token,
-			tokenSecret
-		})
-		// console.log('TWITTER', token, tokenSecret, user.id_str);
-		cb(null, profile._json); 
-	}));
-
-	router.get('/', (req, res, next) => {
-		passport.authenticate('twitter', {display: 'popup'})(req, res, next);
+router.get('/', (req, res, next) => {
+	request.post({
+		url: 'https://api.twitter.com/oauth/request_token',
+		oauth: {
+			consumer_key: TWITTER_KEY,
+			consumer_secret: TWITTER_SECRET,
+			callback: 'http://localhost:3000/signin/twitter/callback'
+		}
+	}, (e, r, body) => {
+		if (e) {
+			return res.send(`error: ${e.message}\n${process.env.NODE_ENV !== 'production' && e.stack}`);
+		}
+		const {oauth_token} = qs.parse(body);
+		res.redirect(`https://api.twitter.com/oauth/authorize?${qs.stringify({oauth_token})}`);
 	});
+});
 
-	router.get('/callback', (req, res, next) => {
-		passport.authenticate('twitter', (err, user, info) => {
-			console.log(err, user, info);
-			if (err) { // todo 404 page, use jsx template engine
-				return res.send(`error: ${err.message}\n${process.env.NODE_ENV !== 'production' && err.stack}`);
-			}
-			console.log('TWIITTER login, set session here, redirecting now', typeof user.id);
-			req.session.user_id = user.id;
-			res.redirect('/');
-			
-		})(req, res, next);
+router.get('/callback', (req, res, next) => {
+	request.post({
+		url: 'https://api.twitter.com/oauth/access_token',
+		oauth: {
+			consumer_key: TWITTER_KEY,
+			consumer_secret: TWITTER_SECRET,
+			token: req.query.oauth_token,
+			token_secret: req.query.oauth_token_secret || '', // not set yet?
+			verifier: req.query.oauth_verifier
+		}
+	}, (e, r, body) => {
+		if (e) { // todo 404 page, use jsx template engine
+			return res.send(`error: ${e.message}\n${process.env.NODE_ENV !== 'production' && e.stack}`);
+		}
+		const {user_id, oauth_token, oauth_token_secret} = qs.parse(body);
+
+		req.session.user_id = user_id;
+		req.session.token = oauth_token;
+		req.session.token_secret = oauth_token_secret;
+		res.redirect('/');
 	});
+});
 
-
-	return router;
-};
+module.exports = router;
