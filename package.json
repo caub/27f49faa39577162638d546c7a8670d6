@@ -1,0 +1,13 @@
+{
+  "name": "tech-task",
+  "version": "1.0.0",
+  "description": "Tech Task",
+  "main": "index.js",
+  "scripts": {
+    "name": "node -e 'console.log(crypto.createHash(`md5`).update(`auburtin-cyril-techtask-20171130`).digest(`hex`))'",
+    "test": "jest"
+  },
+  "author": "caub",
+  "license": "ISC",
+  "repository": "git@github.com:caub/27f49faa39577162638d546c7a8670d6.git"
+}
