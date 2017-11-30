@@ -1,0 +1,15 @@
+{
+	"extends": "fbjs",
+	"plugins": ["jest"],
+	"env": {
+		"browser": true,
+		"node": true,
+		"jest/globals": true
+	},
+	"rules": {
+		"indent": ["error", "tab"],
+		"comma-dangle": "off",
+		"consistent-return": "off",
+		"max-len": ["warn", 180, 4]
+	}
+}
