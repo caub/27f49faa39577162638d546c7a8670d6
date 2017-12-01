@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
 import {ORIGIN} from '../util/fetchApi';
 import {logout, getTweets} from '../util/reducers';
 
@@ -44,7 +44,16 @@ const Screen = styled.div`
 	}
 
 	.signin {
-		align-self: center;
+		
+	}
+`;
+
+const Signin = styled.div`
+	text-align: center;
+	align-self: center;
+	h1 {
+		margin-bottom: 3em;
+		font-size: 240%;
 	}
 	a.twitter {
 		background: rgba(200,200,200,.2);
@@ -115,14 +124,15 @@ const AppView = ({session, user = {}, tweets, onLogout, onRefresh}) => (
 				]}
 			</main>
 		] : (
-			<div className="signin">
+			<Signin>
+				<h1>Twitt</h1>
 				<a className="twitter" href={ORIGIN + '/signin/twitter?r=' + location.origin}>
 					<svg>
 						<use href="#logo" />
 					</svg>
 					<span>Sign in with Twitter</span>
 				</a>
-			</div>
+			</Signin>
 		)}
 	</Screen>
 );

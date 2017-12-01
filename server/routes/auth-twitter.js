@@ -3,6 +3,8 @@ const request = require('request');
 const qs = require('querystring');
 const {TWITTER_KEY, TWITTER_SECRET} = require('../config');
 
+// todo we could reuse tokens in sessions after logging out (so not deleting them)
+
 router.get('/', (req, res, next) => {
 	const s = qs.stringify(req.query);
 	request.post({

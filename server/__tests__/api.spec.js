@@ -4,7 +4,7 @@ const eq = require('deep-eq');
 const _fetch = require('fetch-cookie/node-fetch')(require('node-fetch'));
 const fetch = (url, opts = {}) => _fetch(`http://localhost:${PORT}${url}`, opts);
 
-const PORT = process.env.PORT = 3000;
+const PORT = process.env.PORT = 3001;
 
 const startServer = require('..');
 
