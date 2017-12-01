@@ -2,7 +2,8 @@ const cors = require('express-mids/lib/cors');
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const {ORIGINS_RE} = require('./config');
+const Twit = require('twit');
+const {ORIGINS_RE, TWITTER_KEY, TWITTER_SECRET} = require('./config');
 const Store = require('./util/session-store');
 
 const app = express().disable('x-powered-by');
@@ -31,17 +32,31 @@ app.use(session({
 }));
 
 app.get(['/user', '/session'], (req, res) => {
-	res.json(res.session);
+	const {user_id, token, token_secret} = req.session || {};
+	res.json({user_id, token, token_secret});
 });
 
-app.get(['/profile', '/connect'], require('./routes/profile'));
+const twitMiddleware = (req, res, next) => {
+	if (!req.session.user_id) {
+		return next();
+	}
+	req.twit = new Twit({
+		consumer_key: TWITTER_KEY,
+		consumer_secret: TWITTER_SECRET,
+		access_token: req.session.token,
+		access_token_secret: req.session.token_secret,
+		timeout_ms: 20000
+	});
+	next();
+};
 
-app.use('/tweets', require('./routes/tweets'));
+app.use('/', twitMiddleware, require('./routes/api'));
 
 app.get('/', (req, res) => {
 	res.send(`
 		hello
 		${req.session && req.session.user_id}
+		this should be overriden by app
 `);
 });
 
