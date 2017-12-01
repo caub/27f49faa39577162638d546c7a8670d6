@@ -82,9 +82,5 @@ module.exports = {
 		...(isProd ? [
 			new ExtractTextPlugin(`[name].css${isProd ? '?v=[contenthash:4]' : ''}`)
 		] : [])
-	],
-	externals: {
-		'node-fetch': 'fetch',
-		'fetch-cookie': true
-	}
+	]
 };

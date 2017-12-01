@@ -8,6 +8,10 @@ const Store = require('./util/session-store');
 
 const app = express().disable('x-powered-by');
 
+if (process.env.NODE_ENV !== 'production') {
+	app.set('json spaces', 2);
+}
+
 app.use(require('compression')());
 
 const root = path.resolve(path.join(__dirname, '..'));
@@ -61,7 +65,8 @@ app.get('/', (req, res) => {
 });
 
 // signout
-app.get(['/signout', '/logout'], (req, res) => {
+app.get(['/signout', '/logout', '/disconnect'], (req, res) => {
+	// didn't manage to unauthorize twitter application, oauth2/invalidate_token possibly
 	req.session.destroy(err => {
 		res.format({
 			json: () => res.status(err ? 500 : 204).end(),
@@ -69,6 +74,7 @@ app.get(['/signout', '/logout'], (req, res) => {
 		});
 	});
 });
+
 
 app.use(['/signin/twitter', '/auth/twitter', '/oauth_request'], require('./routes/auth-twitter'));
 
@@ -78,7 +84,7 @@ app.use(['/signin/twitter', '/auth/twitter', '/oauth_request'], require('./route
  * @param port (optional, defaults to process.env.PORT || 3000)
  * @returns server
  */
-const start = (port = process.env.PORT || 3000, TwitterStrategy) => {
+const start = (port = process.env.PORT || 3000) => {
 	return app.listen(port);
 };
 

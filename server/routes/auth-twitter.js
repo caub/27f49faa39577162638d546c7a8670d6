@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 		oauth: {
 			consumer_key: TWITTER_KEY,
 			consumer_secret: TWITTER_SECRET,
-			callback: 'http://localhost:3000/signin/twitter/callback'
+			callback: `http://localhost:${process.env.PORT || 3000}/signin/twitter/callback`
 		}
 	}, (e, r, body) => {
 		if (e) {
