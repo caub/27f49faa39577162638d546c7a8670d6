@@ -37,12 +37,12 @@ app.use(session({
 
 app.get(['/user', '/session'], (req, res) => {
 	const {user_id, token, token_secret} = req.session || {};
-	res.json({user_id, token, token_secret});
+	res.status(user_id && token && token_secret ? 200 : 403).json({user_id, token, token_secret});
 });
 
 const twitMiddleware = (req, res, next) => {
 	if (!req.session.user_id) {
-		return next();
+		return next(); // I still want to allow root url, so not next(err), but it's not ideal
 	}
 	req.twit = new Twit({
 		consumer_key: TWITTER_KEY,
@@ -69,8 +69,8 @@ app.get(['/signout', '/logout', '/disconnect'], (req, res) => {
 	// didn't manage to unauthorize twitter application, oauth2/invalidate_token possibly
 	req.session.destroy(err => {
 		res.format({
-			json: () => res.status(err ? 500 : 204).end(),
-			default: () => res.redirect('/')
+			default: () => res.status(err ? 500 : 204).end(),
+			html: () => res.redirect('/')
 		});
 	});
 });

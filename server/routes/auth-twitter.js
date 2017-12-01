@@ -35,11 +35,12 @@ router.get('/callback', (req, res, next) => {
 			return res.send(`error: ${e.message}\n${process.env.NODE_ENV !== 'production' && e.stack}`);
 		}
 		const {user_id, oauth_token, oauth_token_secret} = qs.parse(body);
-
 		req.session.user_id = user_id;
 		req.session.token = oauth_token;
 		req.session.token_secret = oauth_token_secret;
+		// req.session.save(() => {
 		res.redirect('/');
+		// });
 	});
 });
 
