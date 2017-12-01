@@ -4,12 +4,13 @@ const qs = require('querystring');
 const {TWITTER_KEY, TWITTER_SECRET} = require('../config');
 
 router.get('/', (req, res, next) => {
+	const s = qs.stringify(req.query);
 	request.post({
 		url: 'https://api.twitter.com/oauth/request_token',
 		oauth: {
 			consumer_key: TWITTER_KEY,
 			consumer_secret: TWITTER_SECRET,
-			callback: `http://localhost:${process.env.PORT || 3000}/signin/twitter/callback`
+			callback: `http://localhost:${process.env.PORT || 3000}/signin/twitter/callback${s ? '?' + s : ''}`
 		}
 	}, (e, r, body) => {
 		if (e) {
@@ -39,7 +40,7 @@ router.get('/callback', (req, res, next) => {
 		req.session.token = oauth_token;
 		req.session.token_secret = oauth_token_secret;
 		// req.session.save(() => {
-		res.redirect('/');
+		res.redirect(req.query.r || '/');
 		// });
 	});
 });

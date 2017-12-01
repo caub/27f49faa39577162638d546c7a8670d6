@@ -35,7 +35,7 @@ app.use(session({
 	store: new Store()
 }));
 
-app.get(['/user', '/session'], (req, res) => {
+app.get('/session', (req, res) => {
 	const {user_id, token, token_secret} = req.session || {};
 	res.status(user_id && token && token_secret ? 200 : 403).json({user_id, token, token_secret});
 });
@@ -70,7 +70,7 @@ app.get(['/signout', '/logout', '/disconnect'], (req, res) => {
 	req.session.destroy(err => {
 		res.format({
 			default: () => res.status(err ? 500 : 204).end(),
-			html: () => res.redirect('/')
+			html: () => res.redirect(req.query.r || '/')
 		});
 	});
 });

@@ -29,13 +29,13 @@ afterAll(async () => {
 });
 
 it('should authenticate with Twitter', async () => {
-	const u1 = await fetch('/user').then(r => r.json());
+	const u1 = await fetch('/session').then(r => r.json());
 	eq(u1.user_id, undefined);
 
 	const r = await fetch('/signin/twitter');
 	eq(r.status, 200);
 
-	const u2 = await fetch('/user').then(r => r.json());
+	const u2 = await fetch('/session').then(r => r.json());
 	eq(u2.user_id, '11');
 });
 

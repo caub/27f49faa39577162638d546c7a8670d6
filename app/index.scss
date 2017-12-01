@@ -6,15 +6,13 @@ body {
 * {
 	box-sizing: border-box;
 }
-main {
+
+.twitt {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	height: 100vh;
-}
-main, header {
-	pre {
-		white-space: pre-wrap;
-	}
+
 	button {
 		background: transparent;
 		border: none;
@@ -34,12 +32,11 @@ main, header {
 	h2 {
 		text-align: center;
 	}
-
 	.btn {
 		padding: 5px 10px;
 		border: 1px solid #e2e2e2;
-		color: #fafafa;
 		border-radius: 6px;
+		color: #fafafa;
 		font-size: 1.2em;
 		margin: 1em; 
 	}

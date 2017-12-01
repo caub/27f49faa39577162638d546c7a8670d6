@@ -28,6 +28,11 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.json'],
 	},
+	externals: {
+		'node-fetch': 'fetch',
+		'fetch-cookie': true
+	},
+
 	module: {
 		rules: [{
 			test: /\.js$/,
