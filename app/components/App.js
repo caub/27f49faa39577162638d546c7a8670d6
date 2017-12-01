@@ -48,7 +48,7 @@ const Screen = styled.div`
 	}
 `;
 
-const Signin = styled.div`
+export const Signin = styled.div`
 	text-align: center;
 	align-self: center;
 	h1 {
@@ -101,7 +101,7 @@ const Profile = styled.div`
 	}
 `;
 
-const AppView = ({session, user = {}, tweets, onLogout, onRefresh}) => (
+export const AppView = ({session, user = {}, tweets, onLogout, onRefresh}) => (
 	<Screen className="twitt">
 		{session ? [
 			<header key="h">

@@ -24,7 +24,7 @@ export default (state = {}, {type, value} = {}) => {
 export const getSession = dispatch => () => fetchApi('/session')
 	.then(session => {
 		dispatch({type: SIGNIN, value: session});
-		fetchApi('/profile')
+		return fetchApi('/profile')
 			.then(user => dispatch({type: SET_PROFILE, value: user}));
 	})
 	.catch(() => {});

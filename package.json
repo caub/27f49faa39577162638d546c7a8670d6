@@ -11,6 +11,9 @@
 		"start": "node-dev server & webpack-dev-server --hot --inline --history-api-fallback",
 		"test": "eslint . && jest"
 	},
+	"jest": {
+		"setupTestFrameworkScriptFile": "./server/util/enzyme-setup.js"
+	},
 	"author": "caub",
 	"license": "ISC",
 	"repository": "git@github.com:caub/27f49faa39577162638d546c7a8670d6.git",
