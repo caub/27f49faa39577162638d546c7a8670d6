@@ -32,7 +32,7 @@ it('action functions should pass', async () => {
 
 	const session = {user_od: '11'};
 	const user = {name: 'test', screen_name: 'test'};
-	const tweets = [{text: 'test', create_at: '2017-11-30'}];
+	const tweets = [{text: 'test', created_at: '2017-11-30'}];
 	nock(`http://localhost:${process.env.PORT}`)
 		.get('/session').reply(200, session)
 		.get('/profile').reply(200, user)

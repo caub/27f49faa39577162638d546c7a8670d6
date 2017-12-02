@@ -40,17 +40,19 @@ app.get('/session', (req, res) => {
 	res.status(user_id && token && token_secret ? 200 : 403).json({user_id, token, token_secret});
 });
 
+const noopTwit = {
+	get: () => Promise.reject(),
+	post: () => Promise.reject()
+};
+
 const twitMiddleware = (req, res, next) => {
-	if (!req.session.user_id) {
-		return next(); // I still want to allow root url, so not next(err), but it's not ideal
-	}
-	req.twit = new Twit({
+	req.twit = req.session.token ? new Twit({
 		consumer_key: TWITTER_KEY,
 		consumer_secret: TWITTER_SECRET,
 		access_token: req.session.token,
 		access_token_secret: req.session.token_secret,
 		timeout_ms: 20000
-	});
+	}) : noopTwit;
 	next();
 };
 

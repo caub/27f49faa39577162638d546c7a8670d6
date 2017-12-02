@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const ORIGIN = process.env.ORIGIN || 'http://locahost:3000'; //'https://twitt.xyz';
+const ORIGIN = process.env.ORIGIN || 'http://localhost:3000'; //'https://twitt.xyz';
 
 const isProd = process.env.NODE_ENV === 'production';
 console.log(`building ${isProd ? 'production' : 'dev'}...`, `server origin: ${ORIGIN}`);

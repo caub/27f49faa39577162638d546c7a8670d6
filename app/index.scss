@@ -7,48 +7,42 @@ body {
 	box-sizing: border-box;
 }
 
-.twitt {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	height: 100vh;
-
-	button {
-		background: transparent;
-		border: none;
-		cursor: pointer;
-		outline: none;
-	}
-	a {
-		color: initial;
-		text-decoration: initial;
-		text-align: center;
-	}
-	ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-	h2 {
-		text-align: center;
-	}
-	.btn {
-		padding: 5px 10px;
-		border: 1px solid #e2e2e2;
-		border-radius: 6px;
-		color: #fafafa;
-		font-size: 1.2em;
-		margin: 1em; 
-	}
-	.btn:hover {
-		filter: brightness(1.03);
-		border-color: #d2d2d2;
-	}
-	.btn.active {
-		background: #f5f5f5;
-		color: #c66;
-	}
+button {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	outline: none;
 }
+a {
+	color: initial;
+	text-decoration: initial;
+	text-align: center;
+}
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+h2 {
+	text-align: center;
+}
+.btn {
+	padding: 5px 10px;
+	border: 1px solid #e2e2e2;
+	border-radius: 6px;
+	color: #fafafa;
+	font-size: 1.2em;
+	margin: 1em; 
+}
+.btn:hover {
+	filter: brightness(1.03);
+	border-color: #d2d2d2;
+}
+.btn.active {
+	background: #f5f5f5;
+	color: #c66;
+}
+
 .error {
 	color: #da2626;
 }

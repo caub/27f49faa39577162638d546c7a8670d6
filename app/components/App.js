@@ -1,11 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import TimeAgo from 'react-timeago';
+import Dropdown, {Content} from './Dropdown';
+import Refresh from './Refresh';
 import {ORIGIN} from '../util/fetchApi';
 import {logout, getTweets} from '../util/reducers';
 
 const Screen = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+
 	header {
 		background: rgba(0,0,200,.2);
 		height: 70px;
@@ -33,18 +40,11 @@ const Screen = styled.div`
 		}
 		padding-top: 1em;
 	}
-
-	.refresh {
-		background: rgba(0,0,240,.6);
-	}
 	.timeline {
-		::empty {
-			content: "No tweets yet"
+		:empty::after {
+			content: "No tweets yet!";
+			opacity: .5;
 		}
-	}
-
-	.signin {
-		
 	}
 `;
 
@@ -79,6 +79,8 @@ export const Signin = styled.div`
 	}
 `;
 
+
+
 const Profile = styled.div`
 	display: flex;
 	align-items: center;
@@ -88,9 +90,13 @@ const Profile = styled.div`
 		height: 48px;
 		margin: 4px;
 	}
+	div {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: -2px;
+	}
 	span {
-		display: inline-block;
-		padding: 10px 2px;
+		padding: 2px;
 	}
 	.name {
 		font-weight: 600;
@@ -102,28 +108,39 @@ const Profile = styled.div`
 `;
 
 export const AppView = ({session, user = {}, tweets, onLogout, onRefresh}) => (
-	<Screen className="twitt">
-		{session ? [
-			<header key="h">
-				<h1>Twitt</h1>
-				<button className="btn logout" onClick={onLogout}>Logout</button>
-			</header>,
-			<main key="m">
-				<Profile>
-					<img src={user.profile_image_url_https} />
-					<span className="name">{user.name}</span>
-					<span className="username">@{user.screen_name}</span>
-				</Profile>
-
-				<button className="btn refresh" onClick={onRefresh}>Refresh tweets</button>
-				{tweets && [
-					<h3 key="h3">My tweets</h3>,
-					<ul className="timeline" key="l">
-						{tweets.map(tweetTemplate)}
-					</ul>
-				]}
-			</main>
-		] : (
+	<Screen>
+		{session ? (
+			<>
+				<header>
+					<Refresh onRefresh={onRefresh} />
+					<h1>Twitt</h1>
+					<Profile>
+						<div>
+							<span className="name">{user.name}</span>
+							<span className="username">{user.screen_name && ('@' + user.screen_name)}</span>
+						</div>
+						<Dropdown>
+							<button>
+								<img src={user.profile_image_url_https} />
+							</button>
+							<Content>
+								<button className="btn logout" onClick={onLogout}>Logout</button>
+							</Content>
+						</Dropdown>
+					</Profile>
+				</header>
+				<main>
+					{tweets && (
+						<>
+							<h3>My tweets</h3>
+							<ul className="timeline">
+								{tweets.map(tweetTemplate)}
+							</ul>
+						</>
+					)}
+				</main>
+			</>
+		) : (
 			<Signin>
 				<h1>Twitt</h1>
 				<a className="twitter" href={ORIGIN + '/signin/twitter?r=' + location.origin}>
