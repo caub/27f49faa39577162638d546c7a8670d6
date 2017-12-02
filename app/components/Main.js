@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import TimeAgo from 'react-timeago';
+import Refresh from './Refresh';
+import {getTweets} from '../util/reducers';
 
 const MainStyle = styled.main`
 	flex: 1;
@@ -27,9 +29,10 @@ const MainStyle = styled.main`
 export const Tweet = styled.li`
 	display: flex;
 	align-items: center;
+	padding: .8em 1.2em;
 	span {
 		flex: 1;
-		font-size: 120%;
+		font-size: 140%;
 	}
 	time {
 		color: rgba(0,0,0,.5);
@@ -44,8 +47,9 @@ const tweetTemplate = tweet => (
 	</Tweet>
 );
 
-export const MainView = ({tweets}) => (
+export const MainView = ({tweets, onRefresh}) => (
 	<MainStyle>
+		<Refresh onRefresh={onRefresh} />
 		{tweets && (
 			<>
 				<h3>My tweets</h3>
@@ -60,6 +64,7 @@ export const MainView = ({tweets}) => (
 const mapStateToProps = (state, _p) => state;
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
+	onRefresh: getTweets(dispatch),
 });
 
 const Main = connect(mapStateToProps, mapDispatchToProps)(MainView);

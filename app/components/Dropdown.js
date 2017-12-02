@@ -21,7 +21,7 @@ or
 </Dropdown>
  */
 
-export const Content = ({ tag: Tag = 'div', ...props }) => (
+export const Content = ({tag: Tag = 'div', ...props}) => (
 	<Tag {...props} className={'dropdown-content ' + (props.className || '')} />
 );
 
@@ -85,7 +85,11 @@ export default class Dropdown extends React.PureComponent {
 		}
 
 		// click out or forceClose -> close
-		if ((e.type === 'keydown' && (e.key === 'Escape' || e.key === 'Tab')) || dropdown && !dropdown.contains(e.target) || e === false) {
+		if (
+			(e.type === 'keydown' && (e.key === 'Escape' || e.key === 'Tab'))
+				|| 
+			e.type === 'pointerdown' && dropdown && !dropdown.contains(e.target) || e === false
+		) {
 			this.toggleListeners(false);
 			this.setState({ active: false });
 			return;
@@ -93,7 +97,7 @@ export default class Dropdown extends React.PureComponent {
 
 		// toggle if click in dropdown buttons (anything but content)
 		const content = dropdown.querySelector('.dropdown-content');
-		if (!content || !content.contains(e.target)) { // toggle
+		if (e.type === 'pointerdown' && (!content || !content.contains(e.target))) { // toggle
 			this.toggleListeners(!this.state.active);
 			this.setState({ active: !this.state.active });
 		}
@@ -109,19 +113,22 @@ export default class Dropdown extends React.PureComponent {
 		}
 	}
 
+	componentDidMount() {
+		this.dropdown.addEventListener('pointerdown', this.onToggle);
+	}
+
 	componentWillUnmount() {
 		this.toggleListeners(false);
 	}
 
 
 	render() {
-		const { active } = this.state;
+		const {active} = this.state;
 
 		return (
 			<Div
 				innerRef={el => this.dropdown = el}
 				className={'dropdown ' + this.props.className}
-				onMouseDown={this.onToggle}
 				active={active}
 			>
 				{

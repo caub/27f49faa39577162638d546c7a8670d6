@@ -1,19 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import styled from 'styled-components';
 import Header from './Header';
 import Main from './Main';
 import Signin from './Signin';
 
-const Screen = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	height: 100vh;
-`;
-
 export const AppView = ({session}) => (
-	<Screen>
+	<div>
 		{session ? (
 			<>
 				<Header />
@@ -22,7 +14,7 @@ export const AppView = ({session}) => (
 		) : (
 			<Signin />
 		)}
-	</Screen>
+	</div>
 );
 
 const mapStateToProps = (state, _p) => state;

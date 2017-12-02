@@ -31,6 +31,8 @@ export const getSession = dispatch => () => fetchApi('/session')
 		dispatch({type: SIGNIN, value: session});
 		return fetchApi('/profile')
 			.then(user => dispatch({type: SET_PROFILE, value: user}));
+		// dispatch({type: SET_PROFILE, value: {name: 'Cyril auburtio', screen_name: 'lol', profile_image_url_https: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'}});
+		// dispatch({type: SET_TWEETS, value: Array.from({length: 50}, (_,i)=>({id_str: ''+i, text: 'Heelo world '+i, created_at: new Date(2017, 11, 3)}))})
 	})
 	.catch(() => {});
 

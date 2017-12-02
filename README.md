@@ -14,3 +14,7 @@ requires to run redis
 - `npm run build`: build app for production (then run `node server` to start it)
 - `npm start` to start app in development mode, browse http://localhost:9000
 - `npm test` test app (`npx jest --watch` to run it in watch mode)
+
+## Todos
+
+- browser shims: es-shims or polyfill.io (for Promise, fetch, matchMedia, ..)
