@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Dropdown, {Content} from './Dropdown';
 import TweetModal from './TweetModal';
-import {logout, toggleCreateTweet} from '../util/reducers';
+import {logout, toggleTweetModal, submitTweet} from '../util/reducers';
 
 const HeaderStyle = styled.header`
 	position: fixed;
@@ -83,9 +83,9 @@ const userInfos = user => (
 	</div>
 );
 
-export const HeaderView = ({user = {}, createTweet, onLogout, onTweet}) => (
+export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweet, onSubmitTweet}) => (
 	<HeaderStyle>
-		<button className="btn tweet" onClick={onTweet}>Tweet</button>
+		<button className="btn tweet" onClick={onToggleTweet}>Tweet</button>
 		<h1>
 			<svg>
 				<use href="#logo" />
@@ -104,7 +104,7 @@ export const HeaderView = ({user = {}, createTweet, onLogout, onTweet}) => (
 				</Content>
 			</Dropdown>
 		</Profile>
-		<TweetModal active={createTweet} onClose={onTweet} />
+		<TweetModal active={tweetModal} onClose={onToggleTweet} onSubmit={onSubmitTweet}/>
 	</HeaderStyle>
 );
 
@@ -112,7 +112,11 @@ const mapStateToProps = (state, _p) => state;
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
 	onLogout: logout(dispatch),
-	onTweet: toggleCreateTweet(dispatch),
+	onToggleTweet: () => toggleTweetModal(dispatch)(),
+	onSubmitTweet: e => {
+		e.preventDefault();
+		submitTweet(dispatch)(e.currentTarget.status.value); // currentTarget / target is the form
+	}
 });
 
 const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderView);

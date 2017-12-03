@@ -1,24 +1,11 @@
 import React from 'react';
-import {createPortal} from 'react-dom';
 import styled from 'styled-components';
+import Modal, {Content} from './Modal';
 
-const TweetModalStyle = styled.div`
-	position: fixed;
-	top: 0; left: 0; right: 0; bottom: 0;
-	opacity: ${p => p.active ? 1 : 0};
-	pointer-events: ${p => p.active ? 'auto' : 'none'};
-	background: rgba(0,0,0,.6);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	.modal-content {
-		padding: 1em;
-		background: #fafafa;
-		border-radius: 10px;
-	}
+const ContentStyle = styled(Content)`
 	textarea {
 		width: 460px;
+		max-width: 98vw;
 		height: 80px;
 		font-size: 1.1em;
 		line-height: 1.8em;
@@ -27,16 +14,27 @@ const TweetModalStyle = styled.div`
 		border: solid 1px #ddd;
 		outline: none;
 	}
+	.chars {
+		position: absolute;
+		right: 32px;
+		bottom: 68px;
+		color: #e0245e;
+	}
 `;
 
-export default ({active, onClose}) => createPortal((
-	<TweetModalStyle active={active} onClick={e => e.target === e.currentTarget && onClose(e)}>
-		<form className="modal-content">
-			<h3>Write your tweet</h3>
-			<textarea>
-				Todo...
-			</textarea>
-			<input type="submit" value="Tweet" />
-		</form>
-	</TweetModalStyle>
-), document.body);
+export default class TweetModal extends React.PureComponent {
+	state = {text: ''}
+	render() {
+		const {active, onClose, onSubmit} = this.props;
+		return (
+			<Modal active={active} onClose={onClose}>
+				<ContentStyle tag="form" onSubmit={onSubmit}>
+					<h3>Write your tweet</h3>
+					<textarea name="status" value={this.state.text} onChange={e => this.setState({text: e.target.value})} placeholder="Check out ...🚀" />
+					{this.state.text.length > 240 && <span className="chars">{240 - this.state.text.length}</span>}
+					<input type="submit" value="Tweet" />
+				</ContentStyle>
+			</Modal>
+		);
+	}
+}

@@ -39,6 +39,7 @@ const session = {user_od: '11'};
 const user = {name: 'test', screen_name: 'test'};
 const tweets = [{text: 'test', created_at: '2017-11-30'}];
 nock(`http://localhost:${process.env.PORT}`)
+	.persist()
 	.get('/session').reply(200, session)
 	.get('/profile').reply(200, user)
 	.get('/tweets').reply(200, tweets)
@@ -65,5 +66,5 @@ it('getSession action', async () => {
 	await getSession(action => {
 		state = reducers(state, action);
 	})();
-	eq(state, {session, user});
+	eq(state, {session, user, tweets, loading: false});
 });

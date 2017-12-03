@@ -15,7 +15,7 @@ const store = createStore(
 
 document.body.classList.remove('loading');
 
-getSession(store.dispatch)();
+getSession(store.dispatch, process.env.MOCK)();
 
 const WrapApp = () => (
 	<Provider store={store}>

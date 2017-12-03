@@ -75,10 +75,11 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env': isProd ? {
-				NODE_ENV: JSON.stringify('production'),
+			'process.env': {
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				ORIGIN: JSON.stringify(ORIGIN),
-			} : {},
+				MOCK: !isProd && JSON.stringify(process.env.MOCK),
+			},
 		}),
 		new HtmlWebpackPlugin({
 			// hash: true,

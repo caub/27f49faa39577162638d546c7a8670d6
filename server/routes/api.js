@@ -26,7 +26,7 @@ router.get('/profile/:id?', (req, res) => {
 });
 
 router.get('/tweets', (req, res) => {
-	req.twit.get('statuses/home_timeline', {count: 100, trim_user: 1})
+	req.twit.get('statuses/home_timeline', {count: 100})
 		.then(r => res.json(r.data))
 		.catch(err => res.status(403).json(err));
 });
@@ -38,6 +38,7 @@ router.get('/tweets/:id', (req, res) => {
 });
 
 router.post('/tweets', (req, res) => {
+	// todo validate that req.body has status field
 	req.twit.post('statuses/update', req.body)
 		.then(r => res.json(r.data))
 		.catch(err => res.status(400).json(err));
