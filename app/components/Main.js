@@ -6,19 +6,15 @@ import Refresh from './Refresh';
 import {getTweets} from '../util/reducers';
 
 const MainStyle = styled.main`
-	flex: 1;
-	margin: 0 auto;
-	max-width: 100%;
-	width: 1000px;
-	@media (max-width: 1200px) {
-		width: 800px;
-	}
-	@media (max-width: 820px) {
-		padding: 0 1em;
-	}
-	padding-top: 1em;
+	margin-top: 6em;
 
 	.timeline {
+		margin: 0 auto;
+		padding: 0 2em 0 5em;
+		@media (min-width: 860px) {
+			max-width: 800px;
+		}
+
 		:empty::after {
 			content: "No tweets yet!";
 			opacity: .5;
@@ -29,14 +25,23 @@ const MainStyle = styled.main`
 export const Tweet = styled.li`
 	display: flex;
 	align-items: center;
-	padding: .8em 1.2em;
+	padding: 1.1em .6em;
+	background: #fefefe;
+	border: #e6ecf0 1px solid;
+	border-top: none;
+	:first-child {
+		border-top: #e6ecf0 1px solid;
+	}
 	span {
 		flex: 1;
-		font-size: 140%;
+		font-size: 125%;
 	}
 	time {
 		color: rgba(0,0,0,.5);
 		font-size: 90%;
+	}
+	:hover {
+		background: #f6f8f9;
 	}
 `;
 
@@ -51,12 +56,9 @@ export const MainView = ({tweets, onRefresh}) => (
 	<MainStyle>
 		<Refresh onRefresh={onRefresh} />
 		{tweets && (
-			<>
-				<h3>My tweets</h3>
-				<ul className="timeline">
-					{tweets.map(tweetTemplate)}
-				</ul>
-			</>
+			<ul className="timeline">
+				{tweets.map(tweetTemplate)}
+			</ul>
 		)}
 	</MainStyle>
 );

@@ -2,11 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Dropdown, {Content} from './Dropdown';
-import {logout} from '../util/reducers';
+import TweetModal from './TweetModal';
+import {logout, toggleCreateTweet} from '../util/reducers';
 
 const HeaderStyle = styled.header`
-	position: relative;
-	background: rgba(0,20,255,.25);
+	position: fixed;
+	left: 0; right: 0; top: 0;
+	background: rgba(100,170,255,.65);
 	height: 70px;
 	display: flex;
 	align-items: center;
@@ -15,12 +17,15 @@ const HeaderStyle = styled.header`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: rgba(0,0,50,.8);
+		color: rgba(0,30,120,.8);
 	}
 	svg {
 		width: 40px;
 		height: 32px;
 		margin-right: 6px;
+		path {
+			fill: red;
+		}
 	}
 	.logout {
 		background: #c55;
@@ -31,7 +36,7 @@ const HeaderStyle = styled.header`
 		margin: 0;
 		font-size: 1.4em;
 		border-radius: 20px;
-		background: rgba(0,60,220,.7);
+		background: rgba(0,110,220,.7);
 	}
 `;
 
@@ -78,9 +83,9 @@ const userInfos = user => (
 	</div>
 );
 
-export const HeaderView = ({user = {}, onLogout}) => (
+export const HeaderView = ({user = {}, createTweet, onLogout, onTweet}) => (
 	<HeaderStyle>
-		<button className="btn tweet">Tweet</button>
+		<button className="btn tweet" onClick={onTweet}>Tweet</button>
 		<h1>
 			<svg>
 				<use href="#logo" />
@@ -99,6 +104,7 @@ export const HeaderView = ({user = {}, onLogout}) => (
 				</Content>
 			</Dropdown>
 		</Profile>
+		<TweetModal active={createTweet} onClose={onTweet} />
 	</HeaderStyle>
 );
 
@@ -106,6 +112,7 @@ const mapStateToProps = (state, _p) => state;
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
 	onLogout: logout(dispatch),
+	onTweet: toggleCreateTweet(dispatch),
 });
 
 const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderView);

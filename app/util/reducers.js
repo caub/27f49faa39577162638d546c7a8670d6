@@ -4,6 +4,7 @@ export const SIGNIN = 'SIGNIN';
 export const LOADING = 'LOADING';
 export const SET_TWEETS = 'SET_TWEETS';
 export const SET_PROFILE = 'SET_PROFILE';
+export const CREATE_TWEET = 'CREATE_TWEET';
 
 const delay = (t, v) => new Promise(r => setTimeout(r, t, v));
 
@@ -12,6 +13,7 @@ const actions = {
 	[LOADING]: (state, loading = !state.loading) => ({...state, loading}),
 	[SET_TWEETS]: (state, tweets) => ({...state, tweets, loading: false}),
 	[SET_PROFILE]: (state, user) => ({...state, user}),
+	[CREATE_TWEET]: (state, createTweet = !state.createTweet) => ({...state, createTweet}),
 };
 
 export default (state = {}, {type, value} = {}) => {
@@ -46,3 +48,4 @@ export const getTweets = dispatch => async () => {
 		.then(tweets => dispatch({type: SET_TWEETS, value: tweets}));
 };
 
+export const toggleCreateTweet = (dispatch, value) => () => dispatch({type: CREATE_TWEET, value});
