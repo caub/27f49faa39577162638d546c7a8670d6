@@ -4,9 +4,13 @@ import {ORIGIN} from '../util/fetchApi';
 
 export const SigninStyle = styled.div`
 	text-align: center;
-	align-self: center;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	align-items: center;
+	justify-content: center;
 	h1 {
-		margin-bottom: 3em;
+		margin-bottom: 1.2em;
 		font-size: 240%;
 	}
 	a.twitter {
