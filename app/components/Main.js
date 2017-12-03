@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
-import TimeAgo from 'react-timeago';
 import Refresh from './Refresh';
 import {getTweets} from '../util/reducers';
+import Tweet from './tweet/Tweet';
+import OptionsDropdown from './tweet/OptionsDropdown';
 
 const MainStyle = styled.main`
-	margin-top: 6em;
+	margin-top: 5em;
 
 	.timeline {
 		margin: 0 auto;
@@ -22,42 +23,16 @@ const MainStyle = styled.main`
 	}
 `;
 
-export const Tweet = styled.li`
-	display: flex;
-	align-items: center;
-	padding: 1.1em .6em;
-	background: #fefefe;
-	border: #e6ecf0 1px solid;
-	border-top: none;
-	:first-child {
-		border-top: #e6ecf0 1px solid;
-	}
-	span {
-		flex: 1;
-		font-size: 125%;
-	}
-	time {
-		color: rgba(0,0,0,.5);
-		font-size: 90%;
-	}
-	:hover {
-		background: #f6f8f9;
-	}
-`;
-
-const tweetTemplate = tweet => (
-	<Tweet key={tweet.id_str}>
-		<span>{tweet.text}</span>
-		<TimeAgo component="time" date={tweet.created_at} />
-	</Tweet>
-);
-
 export const MainView = ({tweets, onRefresh}) => (
 	<MainStyle>
 		<Refresh onRefresh={onRefresh} />
 		{tweets && (
 			<ul className="timeline">
-				{tweets.map(tweetTemplate)}
+				{tweets.map(tweet => (
+					<Tweet tweet={tweet} key={tweet.id_str}>
+						<OptionsDropdown tweet={tweet} />
+					</Tweet>
+				))}
 			</ul>
 		)}
 	</MainStyle>

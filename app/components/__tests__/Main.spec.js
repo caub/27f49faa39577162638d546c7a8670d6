@@ -1,7 +1,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import eq from 'deep-eq';
-import {MainView, Tweet} from '../Main';
+import {MainView} from '../Main';
+import Tweet from '../tweet/Tweet';
 
 
 it('should render Main with tweets', () => {

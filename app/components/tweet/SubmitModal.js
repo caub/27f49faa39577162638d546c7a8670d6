@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Modal, {Content} from './Modal';
+import Modal, {Content} from '../Modal';
 
 const ContentStyle = styled(Content)`
 	textarea {
@@ -22,7 +22,7 @@ const ContentStyle = styled(Content)`
 	}
 `;
 
-export default class TweetModal extends React.PureComponent {
+export default class SubmitModal extends React.PureComponent {
 	state = {text: ''}
 	render() {
 		const {active, onClose, onSubmit} = this.props;

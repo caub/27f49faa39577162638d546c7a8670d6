@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Dropdown, {Content} from './Dropdown';
-import TweetModal from './TweetModal';
+import SubmitModal from './tweet/SubmitModal';
 import {logout, toggleTweetModal, submitTweet} from '../util/reducers';
 
 const HeaderStyle = styled.header`
 	position: fixed;
 	left: 0; right: 0; top: 0;
 	background: rgba(100,170,255,.65);
-	height: 70px;
+	height: 64px;
 	display: flex;
 	align-items: center;
 	h1 {
@@ -36,7 +36,8 @@ const HeaderStyle = styled.header`
 		margin: 0;
 		font-size: 1.4em;
 		border-radius: 20px;
-		background: rgba(0,110,220,.7);
+		background: rgba(250,250,250,.9);
+    color: #3ba9ee;
 	}
 `;
 
@@ -48,8 +49,9 @@ const Profile = styled.div`
 
 	img {
 		object-fit: contain;
-		width: 48px;
-		height: 48px;
+		border-radius: 50%;
+		width: 42px;
+		height: 42px;
 		margin: 4px;
 	}
 	.user-infos {
@@ -87,10 +89,9 @@ export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweet, onSu
 	<HeaderStyle>
 		<button className="btn tweet" onClick={onToggleTweet}>Tweet</button>
 		<h1>
-			<svg>
+			<svg title="Twitt">
 				<use href="#logo" />
 			</svg>
-			<span>Twitt</span>
 		</h1>
 		<Profile>
 			{matchMedia('(min-width: 621px)').matches && userInfos(user)}
@@ -104,7 +105,7 @@ export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweet, onSu
 				</Content>
 			</Dropdown>
 		</Profile>
-		<TweetModal active={tweetModal} onClose={onToggleTweet} onSubmit={onSubmitTweet}/>
+		<SubmitModal active={tweetModal} onClose={onToggleTweet} onSubmit={onSubmitTweet}/>
 	</HeaderStyle>
 );
 
