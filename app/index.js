@@ -13,9 +13,8 @@ const store = createStore(
 	applyMiddleware(sagaMiddleware)
 );
 
-document.body.classList.remove('loading');
-
-getSession(store.dispatch, process.env.MOCK)();
+getSession(store.dispatch, process.env.MOCK)()
+	.then(() => document.body.classList.remove('loading'));
 
 const WrapApp = () => (
 	<Provider store={store}>

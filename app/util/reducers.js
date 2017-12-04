@@ -16,7 +16,7 @@ const actions = {
 	[SET_TWEETS]: (state, tweets) => ({...state, tweets, loading: false}),
 	[ADD_TWEET]: (state, tweet) => ({
 		...state,
-		tweets: (state.tweets || []).concat(tweet),
+		tweets: [tweet, ...(state.tweets || [])],
 		loading: false,
 		tweetModal: false
 	}),

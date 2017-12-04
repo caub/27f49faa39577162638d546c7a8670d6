@@ -88,7 +88,7 @@ export default class Dropdown extends React.PureComponent {
 		if (
 			(e.type === 'keydown' && (e.key === 'Escape' || e.key === 'Tab'))
 				|| 
-			e.type === 'pointerdown' && dropdown && !dropdown.contains(e.target) || e === false
+			e.type !== 'keydown' && dropdown && !dropdown.contains(e.target) || e === false
 		) {
 			this.toggleListeners(false);
 			this.setState({ active: false });
@@ -97,7 +97,7 @@ export default class Dropdown extends React.PureComponent {
 
 		// toggle if click in dropdown buttons (anything but content)
 		const content = dropdown.querySelector('.dropdown-content');
-		if (e.type === 'pointerdown' && (!content || !content.contains(e.target))) { // toggle
+		if (e.type !== 'keydown' && (!content || !content.contains(e.target))) { // toggle
 			this.toggleListeners(!this.state.active);
 			this.setState({ active: !this.state.active });
 		}
@@ -113,14 +113,9 @@ export default class Dropdown extends React.PureComponent {
 		}
 	}
 
-	componentDidMount() {
-		this.dropdown.addEventListener('pointerdown', this.onToggle);
-	}
-
 	componentWillUnmount() {
 		this.toggleListeners(false);
 	}
-
 
 	render() {
 		const {active} = this.state;
@@ -129,6 +124,8 @@ export default class Dropdown extends React.PureComponent {
 			<Div
 				innerRef={el => this.dropdown = el}
 				className={'dropdown ' + this.props.className}
+				onMouseDown={this.onToggle}
+				onTouchDown={this.onToggle}
 				active={active}
 			>
 				{

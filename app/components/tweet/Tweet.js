@@ -20,6 +20,7 @@ const TweetStyle = styled.li`
 		}
 		> div:first-child {
 			margin-bottom: 6px;
+			margin-right: 25px;
 		}
 		> div:last-child {
 			font-size: 120%;

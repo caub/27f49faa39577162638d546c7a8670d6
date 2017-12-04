@@ -10,6 +10,7 @@ const HeaderStyle = styled.header`
 	left: 0; right: 0; top: 0;
 	background: rgba(100,170,255,.65);
 	height: 64px;
+	z-index: 1;
 	display: flex;
 	align-items: center;
 	h1 {

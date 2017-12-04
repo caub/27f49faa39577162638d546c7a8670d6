@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Modal, {Content} from '../Modal';
 
 const ContentStyle = styled(Content)`
+	display: flex;
+	flex-direction: column;
 	textarea {
 		width: 460px;
 		max-width: 98vw;
@@ -19,6 +21,14 @@ const ContentStyle = styled(Content)`
 		right: 32px;
 		bottom: 68px;
 		color: #e0245e;
+	}
+	input[type=submit] {
+		justify-self: flex-end;
+		align-self: flex-end;
+		margin: 1em 6px 0;
+		border-radius: 15px;
+		padding: 6px 14px;
+		line-height: 20px;
 	}
 `;
 

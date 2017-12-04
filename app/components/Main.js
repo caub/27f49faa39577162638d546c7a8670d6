@@ -11,7 +11,6 @@ const MainStyle = styled.main`
 
 	.timeline {
 		margin: 0 auto;
-		padding: 0 2em 0 5em;
 		@media (min-width: 860px) {
 			max-width: 800px;
 		}

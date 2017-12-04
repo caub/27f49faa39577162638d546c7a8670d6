@@ -6,14 +6,14 @@ import Signin from './Signin';
 
 export const AppView = ({session}) => (
 	<div>
-		{session ? (
+		{session && (session.user_id ? (
 			<>
 				<Header />
 				<Main />
 			</>
 		) : (
 			<Signin />
-		)}
+		))}
 	</div>
 );
 
