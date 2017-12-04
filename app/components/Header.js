@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Dropdown, {Content} from './Dropdown';
 import SubmitModal from './tweet/SubmitModal';
-import {logout, toggleTweetModal, submitTweet} from '../util/reducers';
+import {logout, toggleTweetModal, submitTweet} from '../util/actions';
 
 const HeaderStyle = styled.header`
 	position: fixed;

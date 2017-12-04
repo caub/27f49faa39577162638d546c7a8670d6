@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Refresh from './Refresh';
-import {getTweets} from '../util/reducers';
+import {getTweets} from '../util/actions';
 import Tweet from './tweet/Tweet';
 import OptionsDropdown from './tweet/OptionsDropdown';
 

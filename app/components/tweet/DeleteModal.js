@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import Modal, {Content} from '../Modal';
 import Tweet from './Tweet';
-import {deleteTweet} from '../../util/reducers';
+import {deleteTweet} from '../../util/actions';
 
 const ContentStyle = styled(Content)`
 	input[type=submit] {

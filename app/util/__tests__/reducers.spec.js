@@ -2,15 +2,15 @@ process.env.PORT = process.env.PORT || 3002;
 
 import eq from 'deep-eq';
 import nock from 'nock';
-
-import reducers, {
+import reducers from '../reducers';
+import {
 	SIGNIN,
 	SET_PROFILE,
 	SET_TWEETS,
 	getSession,
 	logout,
 	getTweets
-} from '../reducers';
+} from '../actions';
 
 
 it('reducer after SIGNIN action', () => {
