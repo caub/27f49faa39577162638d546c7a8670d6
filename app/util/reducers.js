@@ -3,7 +3,7 @@ import {
 	LOADING,
 	SET_TWEETS,
 	ADD_TWEET,
-	DELETE_TWEET,
+	REMOVE_TWEET,
 	SET_PROFILE,
 	TWEET_MODAL
 } from './actions';
@@ -18,7 +18,7 @@ const reducersMap = {
 		loading: false,
 		tweetModal: false
 	}),
-	[DELETE_TWEET]: (state, id) => ({
+	[REMOVE_TWEET]: (state, id) => ({
 		...state,
 		tweets: (state.tweets || []).filter(t => t.id_str !== id),
 		loading: false

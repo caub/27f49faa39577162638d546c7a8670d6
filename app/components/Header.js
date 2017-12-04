@@ -86,9 +86,9 @@ const userInfos = user => (
 	</div>
 );
 
-export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweet, onSubmitTweet}) => (
+export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweetModal, onSubmitTweet}) => (
 	<HeaderStyle>
-		<button className="btn tweet" onClick={onToggleTweet}>Tweet</button>
+		<button className="btn tweet" onClick={onToggleTweetModal}>Tweet</button>
 		<h1>
 			<svg title="Twitt">
 				<use href="#logo" />
@@ -106,18 +106,18 @@ export const HeaderView = ({user = {}, tweetModal, onLogout, onToggleTweet, onSu
 				</Content>
 			</Dropdown>
 		</Profile>
-		<SubmitModal active={tweetModal} onClose={onToggleTweet} onSubmit={onSubmitTweet}/>
+		<SubmitModal active={tweetModal} onClose={onToggleTweetModal} onSubmit={onSubmitTweet}/>
 	</HeaderStyle>
 );
 
 const mapStateToProps = (state, _p) => state;
 
-const mapDispatchToProps = (dispatch, _ownProps) => ({
-	onLogout: logout(dispatch),
-	onToggleTweet: () => toggleTweetModal(dispatch)(),
+const mapDispatchToProps = dispatch => ({
+	onLogout: () => dispatch(logout()),
+	onToggleTweetModal: () => dispatch(toggleTweetModal()),
 	onSubmitTweet: e => {
 		e.preventDefault();
-		submitTweet(dispatch)(e.currentTarget.status.value); // currentTarget / target is the form
+		dispatch(submitTweet({status: e.currentTarget.status.value})); // currentTarget / target is the form
 	}
 });
 

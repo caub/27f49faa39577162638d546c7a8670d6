@@ -22,9 +22,9 @@ const ContentStyle = styled(Content)`
 	}
 `;
 
-const DeleteModalView = ({tweet, active, onClose, onDelete}) => (
+const DeleteModalView = ({tweet, active, onClose, onDeleteTweet}) => (
 	<Modal active={active} onClose={onClose}>
-		<ContentStyle tag="form" onSubmit={e => onDelete(e, tweet.id_str)}>
+		<ContentStyle tag="form" onSubmit={e => onDeleteTweet(e, tweet.id_str)}>
 			<h3>Delete your tweet?</h3>
 			<Tweet tweet={tweet} />
 			<div>
@@ -36,10 +36,10 @@ const DeleteModalView = ({tweet, active, onClose, onDelete}) => (
 );
 
 
-const mapDispatchToProps = (dispatch, _ownProps) => ({
-	onDelete: (e, id) => {
+const mapDispatchToProps = dispatch => ({
+	onDeleteTweet: (e, id) => {
 		e.preventDefault();
-		deleteTweet(dispatch)(id);
+		dispatch(deleteTweet(id));
 	}
 });
 

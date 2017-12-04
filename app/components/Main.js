@@ -22,9 +22,9 @@ const MainStyle = styled.main`
 	}
 `;
 
-export const MainView = ({tweets, onRefresh}) => (
+export const MainView = ({tweets, loading, getTweets}) => (
 	<MainStyle>
-		<Refresh onRefresh={onRefresh} />
+		<Refresh loading={loading} onRefresh={getTweets} />
 		{tweets && (
 			<ul className="timeline">
 				{tweets.map(tweet => (
@@ -39,10 +39,6 @@ export const MainView = ({tweets, onRefresh}) => (
 
 const mapStateToProps = (state, _p) => state;
 
-const mapDispatchToProps = (dispatch, _ownProps) => ({
-	onRefresh: getTweets(dispatch),
-});
-
-const Main = connect(mapStateToProps, mapDispatchToProps)(MainView);
+const Main = connect(mapStateToProps, {getTweets})(MainView);
 
 export default Main;

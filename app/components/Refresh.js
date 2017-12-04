@@ -18,15 +18,6 @@ const Button = styled.button`
 	}
 `;
 
-export default class Refresh extends React.PureComponent {
-	state = {}
-
-	render() {
-		return (
-			<Button loading={this.state.loading} onClick={() => {
-				this.setState({loading: true});
-				this.props.onRefresh().then(() => this.setState({loading: false}));
-			}} title="Refresh tweets" />
-		);
-	}
-}
+export default ({loading, onRefresh}) => (
+	<Button loading={loading} onClick={onRefresh} title="Refresh tweets" />
+);
