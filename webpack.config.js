@@ -26,10 +26,7 @@ module.exports = {
 	},
 	// devtool: !isProd && 'sourcemap',
 	resolve: {
-		extensions: ['.js', '.json'],
-		alias: {
-			'babel-core': '@babel/core'
-		}
+		extensions: ['.js', '.json']
 	},
 	externals: {
 		'node-fetch': 'fetch',
