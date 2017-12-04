@@ -6,6 +6,7 @@ import createSagaMiddleware from 'redux-saga';
 import App from './components/App';
 import reducers from './util/reducers';
 import {getSession} from './util/actions';
+import rootSaga from './util/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,8 +15,7 @@ const store = createStore(
 	applyMiddleware(sagaMiddleware)
 );
 
-getSession(store.dispatch, process.env.MOCK)()
-	.then(() => document.body.classList.remove('loading'));
+sagaMiddleware.run(rootSaga);
 
 const WrapApp = () => (
 	<Provider store={store}>

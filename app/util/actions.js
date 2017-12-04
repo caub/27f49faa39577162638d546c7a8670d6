@@ -1,5 +1,6 @@
 import fetchApi from './fetchApi';
 
+export const GET_SESSION = 'GET_SESSION';
 export const SIGNIN = 'SIGNIN';
 export const LOADING = 'LOADING';
 export const SET_TWEETS = 'SET_TWEETS';
@@ -8,26 +9,8 @@ export const DELETE_TWEET = 'DELETE_TWEET';
 export const SET_PROFILE = 'SET_PROFILE';
 export const TWEET_MODAL = 'TWEET_MODAL';
 
-const delay = (t, v) => new Promise(r => setTimeout(r, t, v));
 
-export const getSession = (dispatch, shouldMock) => !shouldMock ? () => fetchApi('/session')
-	.then(session => {
-		dispatch({type: SIGNIN, value: session});
-		return Promise.all([
-			fetchApi('/profile')
-				.then(user => dispatch({type: SET_PROFILE, value: user})),
-			fetchApi('/tweets')
-				.then(tweets => dispatch({type: SET_TWEETS, value: tweets}))
-		]);
-	})
-	.catch(() => {}) : () => fetchApi('/session') // for testing
-	.then(session => {
-		dispatch({type: SIGNIN, value: session});
-		const user = {name: 'John Doe', screen_name: 'foobar', profile_image_url_https: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'};
-		dispatch({type: SET_PROFILE, value: user});
-		dispatch({type: SET_TWEETS, value: Array.from({length: 50}, (_,i)=>({id_str: ''+i, text: 'Heelo world '+i, created_at: new Date(2017, 11, 3), user}))})
-	})
-	.catch(() => {});
+export const getSession = () => ({type: GET_SESSION});
 
 
 export const logout = dispatch => () => fetchApi('/logout')
@@ -35,7 +18,6 @@ export const logout = dispatch => () => fetchApi('/logout')
 
 export const getTweets = dispatch => async () => {
 	dispatch({type: LOADING, value: true});
-	await delay(1000);
 	return fetchApi('/tweets')
 		.then(tweets => dispatch({type: SET_TWEETS, value: tweets}));
 };
