@@ -1,3 +1,4 @@
+import {delay} from 'redux-saga';
 import {call, all, fork, put, takeEvery} from 'redux-saga/effects';
 import fetchApi from './fetchApi';
 import {
@@ -16,8 +17,12 @@ import {
 
 function* _getSession() {
 	try {
-		const session = yield call(fetchApi, '/session');
+		const [session] = yield all([
+			call(fetchApi, '/session'),
+			call(delay, 1000)
+		]);
 		yield put({type: SIGNIN, value: session});
+		
 		const [user, tweets] = yield all([
 			call(fetchApi, '/profile'),
 			call(fetchApi, '/tweets')
@@ -36,6 +41,7 @@ function* _getSession() {
 }
 
 function* _getSessionMock() {
+	yield delay(1000);
 	try {
 		const session = yield call(fetchApi, '/session');
 		yield put({type: SIGNIN, value: session});
