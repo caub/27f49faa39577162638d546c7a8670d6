@@ -11,11 +11,9 @@ const tweets = [{text: 'test', created_at: '2017-11-30'}];
 
 it('session saga should pass', () => {
 	const saga = getSession();
-	eq(saga.next().value, all([
-		call(fetchApi, '/session'),
-		call(delay, 1000)
-	]));
-	eq(saga.next([session]).value, put({type: SIGNIN, value: session}));
+	eq(saga.next().value, call(delay, 1000, call(fetchApi, '/session')));
+	
+	eq(saga.next(session).value, put({type: SIGNIN, value: session}));
 
 	eq(saga.next().value, all([
 		call(fetchApi, '/profile'),
