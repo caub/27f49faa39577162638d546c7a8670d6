@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const Twit = require('twit');
-const {ORIGINS_RE, TWITTER_KEY, TWITTER_SECRET} = require('./config');
+const {ORIGINS_RE, TWITTER_KEY, TWITTER_SECRET, client} = require('./config');
 const Store = require('./util/session-store');
 
 const app = express().disable('x-powered-by');
@@ -80,17 +80,24 @@ app.get(['/signout', '/logout', '/disconnect'], (req, res) => {
 
 app.use(['/signin/twitter', '/auth/twitter', '/oauth_request'], require('./routes/auth-twitter'));
 
-
+let server;
 /**
  * start app
  * @param port (optional, defaults to process.env.PORT || 3000)
  * @returns server
  */
 const start = (port = process.env.PORT || 3000) => {
-	return app.listen(port);
+	server = app.listen(port);
+	return server;
 };
 
-module.exports = start;
+module.exports = {
+	start,
+	close() {
+		server.close();
+		client.quit();
+	}
+};
 
 if (!module.parent) { // if this module is directly invoked, start the server
 	const server = start();

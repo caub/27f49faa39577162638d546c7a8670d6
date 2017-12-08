@@ -6,7 +6,7 @@ const PORT = 3001;
 const _fetch = require('fetch-cookie/node-fetch')(require('node-fetch'));
 const fetch = (url, opts = {}) => _fetch(`http://localhost:${PORT}${url}`, opts);
 
-const startServer = require('..');
+const server = require('..');
 
 nock('https://api.twitter.com')
 	.post('/oauth/request_token').query(true).reply(200, {oauth_token: 'abc'})
@@ -18,11 +18,8 @@ nock('https://api.twitter.com')
 	.get('/1.1/statuses/home_timeline.json').query(true).reply(200, [{text: 'test'}])
 	.get('/1.1/account/verify_credentials.json').query(true).reply(200, {id: '11', id_str: '11'});
 
-
-let server;
-
 beforeAll(async () => {
-	server = startServer(PORT);
+	server.start(PORT);
 });
 afterAll(async () => {
 	server.close();
