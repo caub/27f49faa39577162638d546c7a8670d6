@@ -1,6 +1,12 @@
 {
-	"extends": "fbjs",
-	"plugins": ["jest"],
+	"extends": [
+		"fbjs",
+		"plugin:import/errors",
+		"plugin:import/warnings"
+	],
+	"plugins": [
+		"jest"
+	],
 	"env": {
 		"browser": true,
 		"node": true,
