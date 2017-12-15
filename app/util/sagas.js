@@ -17,7 +17,10 @@ import {
 
 function* _getSession() {
 	try {
-		const session = yield call(delay, 1000, call(fetchApi, '/session'));
+		const [session] = yield all([
+			call(fetchApi, '/session'),
+			call(delay, 1000)
+		]);
 
 		yield put({type: SIGNIN, value: session});
 		
