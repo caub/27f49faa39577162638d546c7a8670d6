@@ -2,13 +2,9 @@
 
 Twitter API, react/redux/redux-sagas
 
-## Plan
-
-It'll take 4H-15H, because not sufficient knowledge on redux-sagas and twitter API yet
-
 ## Run locally
 
-requires to run redis
+requires to run redis (either a local instance or in docker: `docker run -d --name redis -h localhost -p "6379:6379" --expose 6379 redis:alpine`)
 
 - `npm i` install dependencies
 - `npm run build`: build app for production (then run `node server` to start it)
